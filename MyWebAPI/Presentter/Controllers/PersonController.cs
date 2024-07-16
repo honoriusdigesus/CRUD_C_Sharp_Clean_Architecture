@@ -9,17 +9,20 @@ namespace MyWebAPI.Presentter.Controllers
     public class PersonController : ControllerBase
     {
         private readonly Domain.CaseUse.GetAllPersonCaseUse _getAllPersonCaseUse;
-        private readonly Presentter.Mappers.PersonMapperPresenter _personMapper;
         private readonly Domain.CaseUse.CreatePersonCaseUse _createPersonCaseUse;
+        private readonly Domain.CaseUse.UpdatePersonCaseUse _updatePersonCaseUse;
+        private readonly Presentter.Mappers.PersonMapperPresenter _personMapper;
 
         public PersonController(
             Domain.CaseUse.GetAllPersonCaseUse getAllPersonCaseUse,
-            Presentter.Mappers.PersonMapperPresenter personMapper,
-            Domain.CaseUse.CreatePersonCaseUse createPersonCaseUse)
+            Domain.CaseUse.CreatePersonCaseUse createPersonCaseUse,
+            Domain.CaseUse.UpdatePersonCaseUse updatePersonCaseUse,
+            Presentter.Mappers.PersonMapperPresenter personMapper)
         {
             _getAllPersonCaseUse = getAllPersonCaseUse;
-            _personMapper = personMapper;
             _createPersonCaseUse = createPersonCaseUse;
+            _updatePersonCaseUse = updatePersonCaseUse;
+            _personMapper = personMapper;
         }
 
         [HttpGet]
@@ -38,6 +41,17 @@ namespace MyWebAPI.Presentter.Controllers
             var personCreated = await _createPersonCaseUse.Create(personPresenter);
             return _personMapper.ToPresenter(personCreated);
         }
+
+        [HttpPut("{id}")]
+        public async Task<Presentter.Entity.PersonPresenter> Put(int id, [FromBody]Presentter.Entity.PersonPresenter person)
+        {
+            await Task.CompletedTask;
+            var personPresenter = _personMapper.ToDomain(person);
+            var personUpdated = await _updatePersonCaseUse.Update(personPresenter, id);
+            return _personMapper.ToPresenter(personUpdated);
+        }
+
+
 
     }
 }

@@ -11,6 +11,7 @@ try
 {
     builder.Services.AddScoped<MyWebAPI.Domain.CaseUse.CreatePersonCaseUse>();
     builder.Services.AddScoped<MyWebAPI.Domain.CaseUse.GetAllPersonCaseUse>();
+    builder.Services.AddScoped<MyWebAPI.Domain.CaseUse.UpdatePersonCaseUse>();
     builder.Services.AddScoped<MyWebAPI.Domain.Mappers.PersonMapperDomain>();
     builder.Services.AddScoped<MyWebAPI.Presentter.Mappers.PersonMapperPresenter>();
     builder.Services.AddScoped<MyWebAPI.Data.MyDbContext.AppDbContext>();
