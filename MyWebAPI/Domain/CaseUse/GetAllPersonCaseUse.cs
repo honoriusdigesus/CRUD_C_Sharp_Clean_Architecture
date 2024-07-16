@@ -3,8 +3,8 @@
     public class GetAllPersonCaseUse
     {
         //Inject the DbContext
-        private MyWebAPI.Data.MyDbContext.AppDbContext _context;
-        private MyWebAPI.Domain.Mappers.PersonMapperDomain _personMapperDomain;
+        private readonly MyWebAPI.Data.MyDbContext.AppDbContext _context;
+        private readonly MyWebAPI.Domain.Mappers.PersonMapperDomain _personMapperDomain;
 
         public GetAllPersonCaseUse(MyWebAPI.Data.MyDbContext.AppDbContext context, MyWebAPI.Domain.Mappers.PersonMapperDomain personMapperDomain)
         {
@@ -13,8 +13,9 @@
         }
 
         //Get all persons
-        public IEnumerable<MyWebAPI.Domain.Entity.PersonDomain> GetAll()
+        public async Task<IEnumerable<MyWebAPI.Domain.Entity.PersonDomain>> GetAll()
         {
+            await Task.CompletedTask;
             var persons = _context.Persons.ToList();
             return persons.Select(p => _personMapperDomain.ToDomain(p));
         }

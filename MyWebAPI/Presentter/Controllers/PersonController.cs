@@ -8,20 +8,35 @@ namespace MyWebAPI.Presentter.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private Domain.UseCase.GetAllPersonCaseUse _getAllPersonCaseUse;
-        private Presentter.Mappers.PersonMapperPresenter _personMapper;
+        private readonly Domain.UseCase.GetAllPersonCaseUse _getAllPersonCaseUse;
 
-        public PersonController(Domain.UseCase.GetAllPersonCaseUse getAllPersonCaseUse, Presentter.Mappers.PersonMapperPresenter personMapper)
+        private readonly Presentter.Mappers.PersonMapperPresenter _personMapper;
+
+        private readonly Domain.UseCase.CreatePersonCaseUse _createPersonCaseUse;
+
+        public PersonController(Domain.UseCase.GetAllPersonCaseUse getAllPersonCaseUse, Domain.UseCase.CreatePersonCaseUse createPersonCaseUse, Presentter.Mappers.PersonMapperPresenter personMapper)
         {
             _getAllPersonCaseUse = getAllPersonCaseUse;
+            _createPersonCaseUse = createPersonCaseUse;
             _personMapper = personMapper;
         }
 
         [HttpGet]
-        public IEnumerable<Presentter.Entity.PersonPresenter> Get()
+        public async Task<IEnumerable<Presentter.Entity.PersonPresenter>> Get()
         {
-            var persons = _getAllPersonCaseUse.GetAll();
-            return persons.Select(p => _personMapper.ToPresenter(p)); ;
+            await Task.CompletedTask;
+            var persons = await _getAllPersonCaseUse.GetAll();
+            return persons.Select(p => _personMapper.ToPresenter(p));
         }
+
+        [HttpPost]
+        public async Task<Presentter.Entity.PersonPresenter> Post(Presentter.Entity.PersonPresenter person)
+        {
+            await Task.CompletedTask;
+            var personPresenter = _personMapper.ToDomain(person);
+            var personCreated = await _createPersonCaseUse.Create(personPresenter);
+            return _personMapper.ToPresenter(personCreated);
+        }
+
     }
 }
