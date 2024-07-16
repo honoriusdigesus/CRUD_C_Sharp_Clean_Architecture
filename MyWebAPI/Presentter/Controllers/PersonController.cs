@@ -8,17 +8,18 @@ namespace MyWebAPI.Presentter.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private readonly Domain.UseCase.GetAllPersonCaseUse _getAllPersonCaseUse;
-
+        private readonly Domain.CaseUse.GetAllPersonCaseUse _getAllPersonCaseUse;
         private readonly Presentter.Mappers.PersonMapperPresenter _personMapper;
+        private readonly Domain.CaseUse.CreatePersonCaseUse _createPersonCaseUse;
 
-        private readonly Domain.UseCase.CreatePersonCaseUse _createPersonCaseUse;
-
-        public PersonController(Domain.UseCase.GetAllPersonCaseUse getAllPersonCaseUse, Domain.UseCase.CreatePersonCaseUse createPersonCaseUse, Presentter.Mappers.PersonMapperPresenter personMapper)
+        public PersonController(
+            Domain.CaseUse.GetAllPersonCaseUse getAllPersonCaseUse,
+            Presentter.Mappers.PersonMapperPresenter personMapper,
+            Domain.CaseUse.CreatePersonCaseUse createPersonCaseUse)
         {
             _getAllPersonCaseUse = getAllPersonCaseUse;
-            _createPersonCaseUse = createPersonCaseUse;
             _personMapper = personMapper;
+            _createPersonCaseUse = createPersonCaseUse;
         }
 
         [HttpGet]
@@ -30,7 +31,7 @@ namespace MyWebAPI.Presentter.Controllers
         }
 
         [HttpPost]
-        public async Task<Presentter.Entity.PersonPresenter> Post(Presentter.Entity.PersonPresenter person)
+        public async Task<Presentter.Entity.PersonPresenter> Post([FromBody]Presentter.Entity.PersonPresenter person)
         {
             await Task.CompletedTask;
             var personPresenter = _personMapper.ToDomain(person);

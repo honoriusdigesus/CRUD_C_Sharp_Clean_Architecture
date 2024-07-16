@@ -1,4 +1,4 @@
-﻿namespace MyWebAPI.Domain.UseCase
+﻿namespace MyWebAPI.Domain.CaseUse
 {
     public class GetAllPersonCaseUse
     {
@@ -6,7 +6,9 @@
         private readonly MyWebAPI.Data.MyDbContext.AppDbContext _context;
         private readonly MyWebAPI.Domain.Mappers.PersonMapperDomain _personMapperDomain;
 
-        public GetAllPersonCaseUse(MyWebAPI.Data.MyDbContext.AppDbContext context, MyWebAPI.Domain.Mappers.PersonMapperDomain personMapperDomain)
+        public GetAllPersonCaseUse(
+            MyWebAPI.Data.MyDbContext.AppDbContext context, 
+            MyWebAPI.Domain.Mappers.PersonMapperDomain personMapperDomain)
         {
             _context = context;
             _personMapperDomain = personMapperDomain;
