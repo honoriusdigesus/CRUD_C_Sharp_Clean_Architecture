@@ -19,10 +19,10 @@ namespace MyWebAPI.Domain.CaseUse
         public async Task<MyWebAPI.Domain.Entity.PersonDomain> Update([FromBody]MyWebAPI.Domain.Entity.PersonDomain person, int Id)
         {
             if (person == null) {
-                throw new ArgumentNullException(nameof(person));
+                throw new Exceptions.Exception.PersonException("Faltan datos personales en la solicitud.");
             }
             if (Id < 0) {
-                throw new ArgumentNullException(nameof(Id));
+                throw new Exceptions.Exception.PersonIdInvalid("El id no debe ser menor a cero o nulo");
             }
             await Task.CompletedTask;
             var personEntity = _personMapperDomain.ToEntity(person);

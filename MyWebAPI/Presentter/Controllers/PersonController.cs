@@ -11,17 +11,23 @@ namespace MyWebAPI.Presentter.Controllers
         private readonly Domain.CaseUse.GetAllPersonCaseUse _getAllPersonCaseUse;
         private readonly Domain.CaseUse.CreatePersonCaseUse _createPersonCaseUse;
         private readonly Domain.CaseUse.UpdatePersonCaseUse _updatePersonCaseUse;
+        private readonly Domain.CaseUse.GetByIdPersonCaseUse _getByIdPersonCaseUse;
+        private readonly Domain.CaseUse.DeletePersonByIdCaseUse _deletePersonByIdCaseUse;
         private readonly Presentter.Mappers.PersonMapperPresenter _personMapper;
 
         public PersonController(
             Domain.CaseUse.GetAllPersonCaseUse getAllPersonCaseUse,
             Domain.CaseUse.CreatePersonCaseUse createPersonCaseUse,
             Domain.CaseUse.UpdatePersonCaseUse updatePersonCaseUse,
+            Domain.CaseUse.GetByIdPersonCaseUse getByIdPersonCaseUse,
+            Domain.CaseUse.DeletePersonByIdCaseUse deletePersonByIdCaseUse,
             Presentter.Mappers.PersonMapperPresenter personMapper)
         {
             _getAllPersonCaseUse = getAllPersonCaseUse;
             _createPersonCaseUse = createPersonCaseUse;
             _updatePersonCaseUse = updatePersonCaseUse;
+            _getByIdPersonCaseUse = getByIdPersonCaseUse;
+            _deletePersonByIdCaseUse = deletePersonByIdCaseUse;
             _personMapper = personMapper;
         }
 
@@ -51,7 +57,21 @@ namespace MyWebAPI.Presentter.Controllers
             return _personMapper.ToPresenter(personUpdated);
         }
 
+        [HttpGet("{id}")]
+        public async Task<Presentter.Entity.PersonPresenter> Get(int id)
+        {
+            await Task.CompletedTask;
+            var person = await _getByIdPersonCaseUse.GetById(id);
+            return _personMapper.ToPresenter(person);
+        }
 
+        [HttpDelete("{id}")]
+        public async Task<Presentter.Entity.PersonPresenter> Delete(int id)
+        {
+            await Task.CompletedTask;
+            var person = await _deletePersonByIdCaseUse.DeleteById(id);
+            return _personMapper.ToPresenter(person);
+        }
 
     }
 }

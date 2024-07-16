@@ -15,11 +15,16 @@
 
         public async Task<MyWebAPI.Domain.Entity.PersonDomain> Create(MyWebAPI.Domain.Entity.PersonDomain person)
         {
+            if (person == null) {
+                throw new Exceptions.Exception.PersonException("Faltan datos personales en la solicitud.");
+            }
+            else { 
             await Task.CompletedTask;
             var personEntity = _personMapperDomain.ToEntity(person);
             _context.Persons.Add(personEntity);
             await _context.SaveChangesAsync();
             return _personMapperDomain.ToDomain(personEntity);
+            }
         }
     }
 }
